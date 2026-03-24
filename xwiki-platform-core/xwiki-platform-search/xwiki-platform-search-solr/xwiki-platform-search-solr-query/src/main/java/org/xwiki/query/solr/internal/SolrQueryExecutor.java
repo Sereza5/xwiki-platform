@@ -127,7 +127,7 @@ public class SolrQueryExecutor extends AbstractQueryExecutor
             // have already been performed and any change on the result will not ensure that the grouping
             // information (facets, highlighting, maxScore, etc.) is still relevant.
             // A better way would be using a PostFilter as described in this article:
-            // http://java.dzone.com/articles/custom-security-filtering-solr
+            // https://lucidworks.com/blog/custom-security-filtering-solr-5
             List<DocumentReference> usersToCheck = new ArrayList<>(2);
             if (query instanceof SecureQuery) {
                 if (((SecureQuery) query).isCurrentUserChecked()) {
