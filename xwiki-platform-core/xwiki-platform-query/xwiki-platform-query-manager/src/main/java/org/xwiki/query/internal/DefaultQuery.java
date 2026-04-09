@@ -25,8 +25,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import javax.inject.Inject;
+import javax.inject.Provider;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xwiki.model.reference.DocumentReference;
 import org.xwiki.query.Query;
 import org.xwiki.query.QueryException;
 import org.xwiki.query.QueryExecutor;
@@ -34,14 +38,21 @@ import org.xwiki.query.QueryFilter;
 import org.xwiki.query.QueryParameter;
 import org.xwiki.query.SecureQuery;
 
+import com.xpn.xwiki.XWikiContext;
+
 /**
  * Stores all information needed for execute a query.
  *
  * @version $Id$
  * @since 1.6M1
  */
-public class DefaultQuery implements SecureQuery
+public class DefaultQuery implements SecureQuery,PostFilter
 {
+    /**
+     * Used to retrieve the rights.
+     */
+    @Inject
+    private Provider<XWikiContext> xcontextProvider;
     /**
      * Used to log possible warnings.
      */
@@ -318,5 +329,24 @@ public class DefaultQuery implements SecureQuery
     public String toString()
     {
         return getStatement();
+    }
+
+    /**
+     * acl is in the form of a series of whitespace separated [+|-][u|g]:name
+     * allowed is determined by any explicit user or group mentions, plus or minus
+     * order matters
+     * if nothing matches, it is not allowed
+     */
+    public boolean isAllowed(DocumentReference document, String user, String[] groups) {
+        List<DocumentReference> usersToCheck = new ArrayList<>(2);
+        if (this.isCurrentUserChecked()) {
+            usersToCheck.add(xcontextProvider.get().getUserReference());
+        }
+        if (this.isCurrentAuthorChecked()) {
+            usersToCheck.add(xcontextProvider.get().getAuthorReference());
+        }
+        if (!usersToCheck.isEmpty()) {
+            filterResponse(response, usersToCheck);
+        }
     }
 }
