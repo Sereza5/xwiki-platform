@@ -9,7 +9,7 @@
 //
 // Easily usable on <ul>, <ol>, or <div>.
 
-.list-group {
+.list-group, .vertical-menu ul {
   // No need to set list-style: none; since .list-group-item is block level
   padding-left: 0; // reset padding because ul and ol
   margin-bottom: 20px;
@@ -20,7 +20,9 @@
 //
 // Use on `li`s or `div`s within the `.list-group` parent.
 
-.list-group-item {
+.list-group-item, 
+.vertical-menu ul li .group,
+.vertical-menu ul li ul li {
   position: relative;
   display: block;
   padding: 10px 15px;
