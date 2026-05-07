@@ -257,6 +257,16 @@
             </goals>
           </execution>
         </executions>
+        <configuration>
+          <aggregations>
+            <!-- Aggregate the CSS code that is loaded on every page. -->
+            <aggregation>
+              <insertNewLine>true</insertNewLine>
+              <inputDir>${project.build.directory}/${project.build.finalName}/resources/flamingo/css</inputDir>
+              <output>${project.build.directory}/${project.build.finalName}/resources/css/xwiki.flamingo.bundle.min.css</output>
+            </aggregation>
+          </aggregations>
+        </configuration>
       </plugin>
       <!-- Unpack Bootstrap jar in order to add LESS sources in Flamingo -->
       <plugin>
