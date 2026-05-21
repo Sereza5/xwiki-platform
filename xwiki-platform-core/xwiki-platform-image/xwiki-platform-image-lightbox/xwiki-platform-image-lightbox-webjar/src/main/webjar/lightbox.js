@@ -66,20 +66,16 @@ define('xwiki-lightbox-description', [
   };
 
   var updateDescriptionCaption = function(imageData, attachmentData) {
-    if (imageData) {
+    if (imageData?.caption) {
+      $('.lightboxDescription .caption').html(imageData.caption);
+    } else if (imageData) {
       // Verify to not display the url as caption, since this is the default value for alt.
-      var alt = imageData.alt == decodeURIComponent(imageData.href) ? '' : imageData.alt;
-      $('.lightboxDescription .caption').html(imageData.caption || alt || imageData.title);
-    }
-
-    if (!$('.lightboxDescription .caption').is(':empty')) {
-      return;
-    }
-
-    if (attachmentData && attachmentData.name) {
-      $('.lightboxDescription .caption').html(attachmentData.name);
-    } else if (imageData && imageData.fileName) {
-      $('.lightboxDescription .caption').html(imageData.fileName);
+      let alt = imageData.alt == decodeURIComponent(imageData.href) ? '' : imageData.alt;
+      $('.lightboxDescription .caption').text(alt || imageData.title || '');
+    } else if ($('.lightboxDescription .caption').is(':empty') && attachmentData?.name) {
+      $('.lightboxDescription .caption').text(attachmentData.name);
+    } else if ($('.lightboxDescription .caption').is(':empty') && imageData?.fileName) {
+      $('.lightboxDescription .caption').text(imageData.fileName);
     }
   };
 
