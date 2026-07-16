@@ -32,10 +32,8 @@
   #xwikimessageboxstart($services.localization.render('notice') $services.localization.render('accountdisabled'))
 #else
 #xwikimessageboxstart($services.localization.render('notice') $services.localization.render('accountnotactive'))
-#set($confirmdoc = $xwiki.getDocument("XWiki.AccountValidation"))
-#if(!$confirmdoc.isNew())
 $services.localization.render('accountnotactive_email')
-<form action="${confirmdoc.getURL()}" method="post" class="xformInline">
+<form action="$services.security.authentication.getAuthenticationURL('validateaccount', $NULL)" method="post" class="xformInline">
 <div>
 ## CSRF prevention
 <input type="hidden" name="form_token" value="$!{services.csrf.getToken()}" />
@@ -44,7 +42,6 @@ $services.localization.render('accountnotactive_email')
 <span class="buttonwrapper"><input type="submit" value="$services.localization.render('confirmaccount')" class="button"/></span>
 </div>
 </form>
-#end
 #end
 #xwikimessageboxend()
 #end

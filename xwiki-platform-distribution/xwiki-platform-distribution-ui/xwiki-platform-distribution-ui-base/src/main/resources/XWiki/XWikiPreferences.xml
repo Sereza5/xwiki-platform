@@ -3030,7 +3030,7 @@ Hello ${xwiki.getUserName("XWiki.$xwikiname", false)},
 This email address was used to register a new account on ${wikiname}. If you did not make the request, please ignore this message.
 
 In order to activate your account, please follow this link:
-${host}${xwiki.getURL('XWiki.AccountValidation', 'view', "validkey=${validkey}&amp;xwikiname=${xwikiname}")}</validation_email_content>
+${host}${services.security.authentication.getAuthenticationURL('validateaccount', {'validkey': $validkey, 'xwikiname': $xwikiname})}</validation_email_content>
     </property>
     <property>
       <version/>

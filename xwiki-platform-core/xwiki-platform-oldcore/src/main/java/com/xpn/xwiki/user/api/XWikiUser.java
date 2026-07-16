@@ -62,6 +62,12 @@ public class XWikiUser
      */
     public static final String EMAIL_CHECKED_PROPERTY = "email_checked";
 
+    /**
+     * @deprecated the {@code XWiki.AccountValidation} page has been replaced by the
+     *     {@code accountvalidation} authentication resource action
+     * @since 18.6.0RC1
+     */
+    @Deprecated(since = "18.6.0RC1")
     public static final LocalDocumentReference ACCOUNT_VALIDATION_DOCUMENT_REFERENCE =
         new LocalDocumentReference(XWiki.SYSTEM_SPACE, "AccountValidation");
 

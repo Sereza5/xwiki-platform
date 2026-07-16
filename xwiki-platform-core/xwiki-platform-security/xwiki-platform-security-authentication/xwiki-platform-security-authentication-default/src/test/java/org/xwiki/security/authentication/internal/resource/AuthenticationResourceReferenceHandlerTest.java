@@ -170,6 +170,33 @@ class AuthenticationResourceReferenceHandlerTest
     }
 
     @Test
+    void handleValidateAccount() throws Exception
+    {
+        WikiReference wikiReference = new WikiReference("baz");
+        when(this.wikiDescriptorManager.exists("baz")).thenReturn(false);
+        AuthenticationResourceReference resourceReference = new AuthenticationResourceReference(
+            wikiReference,
+            AuthenticationAction.VALIDATE_ACCOUNT);
+
+        ResourceReferenceHandlerChain chain = mock(ResourceReferenceHandlerChain.class);
+        ResourceReferenceHandlerException exception =
+            assertThrows(ResourceReferenceHandlerException.class,
+                () -> this.resourceReferenceHandler.handle(resourceReference, chain));
+        assertEquals("The wiki [baz] does not exist.", exception.getMessage());
+
+        when(this.wikiDescriptorManager.exists("baz")).thenReturn(true);
+        when(this.xwiki.evaluateTemplate("accountvalidation.vm", context)).thenReturn("Account validation content");
+
+        this.resourceReferenceHandler.handle(resourceReference, chain);
+        verify(response).setContentType("text/html; charset=UTF-8");
+        verify(this.xWikiContextInitializer).initialize(any(ExecutionContext.class));
+        verify(servletOutputStream).write("Account validation content".getBytes(StandardCharsets.UTF_8));
+        verify(chain).handleNext(resourceReference);
+        verify(context).setWikiReference(wikiReference);
+        verify(context).setWikiReference(currentWiki);
+    }
+
+    @Test
     void handleForgotUsernameWikiDescriptorError() throws Exception
     {
         WikiReference wikiReference = new WikiReference("bar");

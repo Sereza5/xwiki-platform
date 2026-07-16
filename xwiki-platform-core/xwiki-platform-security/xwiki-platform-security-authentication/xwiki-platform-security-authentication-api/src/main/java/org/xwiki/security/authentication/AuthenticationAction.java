@@ -37,7 +37,14 @@ public enum AuthenticationAction
     /**
      * Action used to retrieve the username of a user.
      */
-    RETRIEVE_USERNAME("retrieveusername");
+    RETRIEVE_USERNAME("retrieveusername"),
+
+    /**
+     * Action used to validate the account of a user.
+     *
+     * @since 18.6.0RC1
+     */
+    VALIDATE_ACCOUNT("validateaccount");
 
     private final String requestParameter;
 

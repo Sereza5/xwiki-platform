@@ -96,6 +96,10 @@ public class AuthenticationResourceReferenceHandler extends AbstractResourceRefe
                 this.handleAction("resetpassword", authenticationResourceReference.getWikiReference());
                 break;
 
+            case VALIDATE_ACCOUNT:
+                this.handleAction("accountvalidation", authenticationResourceReference.getWikiReference());
+                break;
+
             default:
                 // nothing to do here.
         }

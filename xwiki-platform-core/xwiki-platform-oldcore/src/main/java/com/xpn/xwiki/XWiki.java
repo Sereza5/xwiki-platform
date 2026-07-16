@@ -5914,7 +5914,7 @@ public class XWiki implements EventListener
             setPhonyDocument(reference, context, vcontext);
             throw new XWikiException(XWikiException.MODULE_XWIKI_USER, XWikiException.ERROR_XWIKI_USER_DISABLED,
                 "User {0} account is disabled", null, args);
-        } else if (!reference.getLocalDocumentReference().equals(XWikiUser.ACCOUNT_VALIDATION_DOCUMENT_REFERENCE)) {
+        } else {
             String allowed = getConfiguration().getProperty("xwiki.inactiveuser.allowedpages", "");
             boolean allow = false;
             if (!StringUtils.isEmpty(allowed)) {
