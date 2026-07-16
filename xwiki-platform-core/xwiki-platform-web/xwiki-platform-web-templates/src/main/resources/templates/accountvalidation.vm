@@ -24,7 +24,11 @@
 <div class="main layoutsubsection">
   ## Set as an HTML main for better DOM tree semantics to facilitate navigation with assistive technologies.
   <main id="mainContentArea">
-    #if("$!request.validkey" != '' && "$!request.xwikiname" != '' && $xwiki.validateUser(true) == 0)
+    ## The validation link sent by email is a GET request and carries no CSRF token: the validation key itself is
+    ## the secret authorizing the action. The form on the "account inactive" page, however, POSTs to this same
+    ## action, so it is checked like any other state-changing form submission.
+    #set ($isCsrfValid = !$request.getMethod().equalsIgnoreCase('POST') || $services.csrf.isTokenValid($request.form_token))
+    #if($isCsrfValid && "$!request.validkey" != '' && "$!request.xwikiname" != '' && $xwiki.validateUser(true) == 0)
       #set($loginURL = $xwiki.getURL('XWiki.XWikiLogin', 'login'))
       #xwikimessageboxstart($services.localization.render('notice') $services.localization.render('xe.admin.accountvalidation.success', [$loginURL]))
       #xwikimessageboxend()
