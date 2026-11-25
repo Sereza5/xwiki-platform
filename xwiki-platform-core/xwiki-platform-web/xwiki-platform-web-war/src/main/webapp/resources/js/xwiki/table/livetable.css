@@ -64,8 +64,8 @@
 
   .controlPagination {
     position: relative;
-    width: 42px;
-    height: 22px;
+    width: calc(2 * var(--target-size-minimum));
+    height: var(--target-size-minimum);
     overflow: hidden;
     margin: 0 !important;
     padding: 0 !important;
@@ -84,8 +84,15 @@
 
   .controlPagination .prevPagination, .controlPagination .noPrevPagination, .controlPagination .nextPagination, .controlPagination .noNextPagination {
     background-image: url("$xwiki.getSkinFile('icons/xwiki/pagination-controls.png')");
-    width: 21px;
-    height: 22px;
+    background-repeat: no-repeat;
+    /* Each sprite icon is 21 by 22 pixels. Center it in the content box so that the link reaches the minimum target
+      size without showing the neighbouring icons. */
+    background-origin: content-box;
+    background-clip: content-box;
+    box-sizing: border-box;
+    width: var(--target-size-minimum);
+    height: var(--target-size-minimum);
+    padding: calc((var(--target-size-minimum) - 22px) / 2) calc((var(--target-size-minimum) - 21px) / 2);
   }
 
   .controlPagination .prevPagination:hover, .controlPagination .nextPagination:hover {
@@ -106,12 +113,12 @@
 
   .controlPagination .nextPagination {
     background-position: right top;
-    left: 21px;
+    left: var(--target-size-minimum);
   }
 
   .controlPagination .noNextPagination {
     background-position: right bottom;
-    left: 21px;
+    left: var(--target-size-minimum);
   }
 }
 /* </ Pagination>*/
